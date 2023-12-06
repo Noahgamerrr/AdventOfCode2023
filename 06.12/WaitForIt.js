@@ -10,14 +10,10 @@ let possibilities = [];
 for (let time in times) {
     const currentTime = times[time];
     const currentRecord = distances[time];
-    let possibility = 0;
-    for (let i = 1; i <= currentTime / 2; i++) {
-        if (i * (currentTime - i) > currentRecord) {
-            if (i === (currentTime / 2)) possibility++;
-            else possibility += 2;
-        }
-    }
-    possibilities.push(possibility);
+    let firstRecordBreaker = 0;
+    while (firstRecordBreaker * (currentTime - firstRecordBreaker) <= currentRecord) firstRecordBreaker++;
+    console.log(firstRecordBreaker);
+    possibilities.push(currentTime - 2 * (firstRecordBreaker - 1) - 1);
 }
 
 console.log(possibilities);
