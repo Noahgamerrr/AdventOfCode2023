@@ -28,6 +28,20 @@ function validateGears(gears, nums) {
     return true;
 }
 
+function plausibleGears(gears, nums) {
+    let brokenGears = 0;
+    let numsCopy = [...nums];
+    for (let i = 0; i < gears.length; i++) {
+        if (gears[i] == "#") brokenGears++;
+        else if (brokenGears) {
+            if (brokenGears != numsCopy[0]) return false;
+            brokenGears = 0;
+            numsCopy.shift();
+        }
+    }
+    return true;
+}
+
 function insertFaultyGears(gears, nums, unsure, toBeInserted) {
     if (!toBeInserted) {
         if (validateGears(gears, nums)) return 1;
@@ -38,6 +52,7 @@ function insertFaultyGears(gears, nums, unsure, toBeInserted) {
     for (let i = 0; i < unsure.length; i++) {
         let current = unsureCopy.shift();
         let currentGears = gears.substring(0, current) +"#" + gears.substring(current + 1);
+        if (!plausibleGears(currentGears, nums)) continue;
         combinations += insertFaultyGears(currentGears, nums, unsureCopy, toBeInserted - 1);
     }
     return combinations;
